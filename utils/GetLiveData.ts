@@ -28,7 +28,7 @@ export async function getLiveManufacturerData({
         await Promise.all(
           partnumbers.map(async (keyword: string) => {
             const response = await axios.get(
-              `http://127.0.0.1:8000:8000/molex/${keyword}`
+              `https://scrapper-backend.geniusmindzone.com:8000/molex/${keyword}`
             );
 
             if (response && response.data.status !== 404) {
@@ -47,7 +47,7 @@ export async function getLiveManufacturerData({
         let rawData: any = [];
         let failedData: any = [];
         const response = await axios.post(
-          `http://127.0.0.1:8000:8000/molexList`, { parts: partnumbers }
+          `https://scrapper-backend.geniusmindzone.com:8000/molexList`, { parts: partnumbers }
         );
         console.log(response.data)
         if (response.data.length) {
@@ -79,7 +79,7 @@ export async function getLiveManufacturerData({
       await Promise.all(
         partnumbers.map(async (keyword: string) => {
           const response = await axios.get(
-            `http://127.0.0.1:8000/scrap_newark/${keyword}`
+            `https://scrapper-backend.geniusmindzone.com/scrap_newark/${keyword}`
           );
 
           if (response && response.data.status !== 404) {
@@ -98,7 +98,7 @@ export async function getLiveManufacturerData({
       //   let rawData: any = [];
       //   let failedData: any = [];
       //   const response = await axios.get(
-      //     `http://127.0.0.1:8000/scrap_newark/${partnumbers}`
+      //     `https://scrapper-backend.geniusmindzone.com/scrap_newark/${partnumbers}`
       //   );
       //   console.log(response.data)
       //   if (response.data.length) {
@@ -130,7 +130,7 @@ export async function getLiveManufacturerData({
       await Promise.all(
         partnumbers.map(async (keyword: string) => {
           const response = await axios.get(
-            `http://127.0.0.1:8000/scrap_festo/${keyword}`
+            `https://scrapper-backend.geniusmindzone.com/scrap_festo/${keyword}`
           );
 
           if (response && response.data.status !== 404) {
@@ -149,7 +149,7 @@ export async function getLiveManufacturerData({
       //   let rawData: any = [];
       //   let failedData: any = [];
       //   const response = await axios.get(
-      //     `http://127.0.0.1:8000/scrap_festo/${partnumbers}`
+      //     `https://scrapper-backend.geniusmindzone.com/scrap_festo/${partnumbers}`
       //   );
       //   console.log(response.data)
       //   if (response.data.length) {
@@ -181,7 +181,7 @@ export async function getLiveManufacturerData({
       await Promise.all(
         partnumbers.map(async (keyword: string) => {
           const response = await axios.get(
-            `http://127.0.0.1:8000/scrap_murata/${keyword}`
+            `https://scrapper-backend.geniusmindzone.com/scrap_murata/${keyword}`
           );
 
           if (response && response.data.status !== 404) {
@@ -200,7 +200,7 @@ export async function getLiveManufacturerData({
       //   let rawData: any = [];
       //   let failedData: any = [];
       //   const response = await axios.get(
-      //     `http://127.0.0.1:8000/scrap_murata/${partnumbers}`
+      //     `https://scrapper-backend.geniusmindzone.com/scrap_murata/${partnumbers}`
       //   );
       //   console.log(response.data)
       //   if (response.data.length) {
@@ -231,7 +231,7 @@ export async function getLiveManufacturerData({
       await Promise.all(
         partnumbers.map(async (keyword: string) => {
           const response = await axios.get(
-            `http://127.0.0.1:8000/scrap_ti/${keyword}`
+            `https://scrapper-backend.geniusmindzone.com/scrap_ti/${keyword}`
           );
 
           if (response && response.data.status !== 404) {
@@ -250,7 +250,7 @@ export async function getLiveManufacturerData({
       //   let rawData: any = [];
       //   let failedData: any = [];
       //   const response = await axios.get(
-      //     `http://127.0.0.1:8000/scrap_ti/${partnumbers}`
+      //     `https://scrapper-backend.geniusmindzone.com/scrap_ti/${partnumbers}`
       //   );
       //   console.log(response.data)
       //   if (response.data.length) {
@@ -281,7 +281,7 @@ export async function getLiveManufacturerData({
       await Promise.all(
         partnumbers.map(async (keyword: string) => {
           const response = await axios.get(
-            `http://127.0.0.1:8000/scrap_3m/${keyword}`
+            `https://scrapper-backend.geniusmindzone.com/scrap_3m/${keyword}`
           );
 
           if (response && response.data.status !== 404) {
@@ -301,7 +301,7 @@ export async function getLiveManufacturerData({
       //   let rawData: any = [];
       //   let failedData: any = [];
       //   const response = await axios.get(
-      //     `http://127.0.0.1:8000/scrap_3m/${partnumbers}`
+      //     `https://scrapper-backend.geniusmindzone.com/scrap_3m/${partnumbers}`
       //   );
       //   console.log(response.data, "---in response 3m ----")
       //   if (response.data.length) {
@@ -333,7 +333,7 @@ export async function getLiveManufacturerData({
       partnumbers.map(async (partnumber) => {
         partnumber = partnumber.replace(/\//g, ":");
         const response = await axios.get(
-          `http://127.0.0.1:8000/maxim/${partnumber}`
+          `https://scrapper-backend.geniusmindzone.com/maxim/${partnumber}`
         );
         if (response && response.data.status !== 404) {
           rawData = [...rawData, ...[response.data]];
@@ -354,7 +354,7 @@ export async function getLiveManufacturerData({
       await Promise.all(
         partnumbers.map(async (keyword: string) => {
           const response = await axios.get(
-            `http://127.0.0.1:8000/onsemi/${keyword}`
+            `https://scrapper-backend.geniusmindzone.com/onsemi/${keyword}`
           );
 
           if (response && response.data.status !== 404) {
@@ -379,7 +379,7 @@ export async function getLiveManufacturerData({
       await Promise.all(
         partnumbers.map(async (keyword: string) => {
           const response = await axios.get(
-            `http://127.0.0.1:8000/omron/${keyword}`
+            `https://scrapper-backend.geniusmindzone.com/omron/${keyword}`
           );
 
           if (response && response.data.status !== 404) {
@@ -405,7 +405,7 @@ export async function getLiveManufacturerData({
       await Promise.all(
         partnumbers.map(async (keyword: string) => {
           const response = await axios.get(
-            `http://127.0.0.1:8000/wago/${keyword}`
+            `https://scrapper-backend.geniusmindzone.com/wago/${keyword}`
           );
           if (response && response.data.status !== 404) {
             rawData = [...rawData, ...[response.data]];
@@ -431,8 +431,8 @@ export async function getLiveManufacturerData({
         await Promise.all(
           partnumbers.map(async (keyword: string) => {
             const response = await axios.get(
-             // `http://127.0.0.1:8000/te/${keyword}`
-             `https://compliancegrabber-ndl.herokuapp.com/te/${keyword}`
+             // `https://scrapper-backend.geniusmindzone.com/te/${keyword}`
+             `https://scrapper-backend.geniusmindzone.com/te/${keyword}`
              
             );
             if (response && response.data.status !== 404) {
@@ -455,8 +455,8 @@ export async function getLiveManufacturerData({
       let rawData: any = [];
       let failedData: any = [];
       const response = await axios.post(
-       // `http://127.0.0.1:8000/teList`, { parts: partnumbers }
-       `https://compliancegrabber-ndl.herokuapp.com/teList`, { parts: partnumbers }
+       // `https://scrapper-backend.geniusmindzone.com/teList`, { parts: partnumbers }
+       `https://scrapper-backend.geniusmindzone.com/teList`, { parts: partnumbers }
       );
       console.log(response.data)
       if (response.data.length) {
@@ -481,7 +481,7 @@ export async function getLiveManufacturerData({
     await Promise.all(
       partnumbers.map(async (partnumber) => {
         const response = await axios.get(
-          `http://127.0.0.1:8000/phoenix/${partnumber}`
+          `https://scrapper-backend.geniusmindzone.com/phoenix/${partnumber}`
         );
         console.log(response.data);
         if (response && response.data.status !== 404) {
@@ -506,7 +506,7 @@ export async function getLiveDistributersData({
     let failedData: any = [];
     for (let partnumber of partnumbers) {
       const response = await axios.get(
-        `http://127.0.0.1:8000/mouser/${partnumber}`
+        `https://scrapper-backend.geniusmindzone.com/mouser/${partnumber}`
       );
       if (response && response.data.status !== 404) {
         rawData = [...rawData, ...[response.data]];
@@ -541,7 +541,7 @@ export async function getLiveDistributersData({
     await Promise.all(
       partnumbers.map(async (partnumber) => {
         const response = await axios.get(
-          `http://127.0.0.1:8000/arrow/${partnumber}`
+          `https://scrapper-backend.geniusmindzone.com/arrow/${partnumber}`
         );
         if (response && response.data.status !== 404) {
           rawData = [...rawData, ...[response.data]];
@@ -561,7 +561,7 @@ export async function getLiveDistributersData({
       partnumbers.map(async (partnumber) => {
         partnumber = partnumber.replace(/\//g, ":");
         const response = await axios.get(
-          `http://127.0.0.1:8000/maxim/${partnumber}`
+          `https://scrapper-backend.geniusmindzone.com/maxim/${partnumber}`
         );
         if (response && response.data.status !== 404) {
           rawData = [...rawData, ...[response.data]];
@@ -580,7 +580,7 @@ export async function getLiveDistributersData({
     await Promise.all(
       partnumbers.map(async (partnumber) => {
         const response = await axios.get(
-          `http://127.0.0.1:8000/rscomponents/${partnumber}`
+          `https://scrapper-backend.geniusmindzone.com/rscomponents/${partnumber}`
         );
 
         if (response && response.data.status !== 404) {
