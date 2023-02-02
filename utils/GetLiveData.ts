@@ -483,23 +483,12 @@ export async function getLiveManufacturerData({
       const partnumber = partnumbers[index];
       const response = await axios.get(
         `https://scrapper-backend.geniusmindzone.com/phoenix/${partnumber}`
-      ).then((response) => {
-
-
-
+      );
+      if (response && response.data.status !== 404) {
         rawData = [...rawData, ...[response.data]];
-
-
-      }).catch((error) => {
-
-
+      } else {
         failedData = [...failedData, partnumber];
-
-
-      })
-      // if (response && response.data.status !== 404) {
-      // } else {
-      // }
+      }
       if (index < (partnumbers.length - 1)) {
         await getData(index + 1);
       }
