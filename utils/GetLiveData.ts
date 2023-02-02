@@ -431,9 +431,9 @@ export async function getLiveManufacturerData({
         await Promise.all(
           partnumbers.map(async (keyword: string) => {
             const response = await axios.get(
-             // `https://scrapper-backend.geniusmindzone.com/te/${keyword}`
-             `https://scrapper-backend.geniusmindzone.com/te/${keyword}`
-             
+              // `https://scrapper-backend.geniusmindzone.com/te/${keyword}`
+              `https://scrapper-backend.geniusmindzone.com/te/${keyword}`
+
             );
             if (response && response.data.status !== 404) {
               rawData = [...rawData, ...[response.data]];
@@ -455,8 +455,8 @@ export async function getLiveManufacturerData({
       let rawData: any = [];
       let failedData: any = [];
       const response = await axios.post(
-       // `https://scrapper-backend.geniusmindzone.com/teList`, { parts: partnumbers }
-       `https://scrapper-backend.geniusmindzone.com/teList`, { parts: partnumbers }
+        // `https://scrapper-backend.geniusmindzone.com/teList`, { parts: partnumbers }
+        `https://scrapper-backend.geniusmindzone.com/teList`, { parts: partnumbers }
       );
       console.log(response.data)
       if (response.data.length) {
@@ -476,21 +476,49 @@ export async function getLiveManufacturerData({
 
     }
   } else if (supplier == "Phoenix") {
+    // alert("wow")
     let rawData: any[] = [];
     let failedData: any = [];
-    await Promise.all(
-      partnumbers.map(async (partnumber) => {
-        const response = await axios.get(
-          `https://scrapper-backend.geniusmindzone.com/phoenix/${partnumber}`
-        );
-        console.log(response.data);
-        if (response && response.data.status !== 404) {
-          rawData = [...rawData, ...[response.data]];
-        } else {
-          failedData = [...failedData, partnumber];
-        }
+    const getData = async (index) => {
+      const partnumber = partnumbers[index];
+      const response = await axios.get(
+        `https://scrapper-backend.geniusmindzone.com/phoenix/${partnumber}`
+      ).then((response) => {
+
+
+
+        rawData = [...rawData, ...[response.data]];
+
+
+      }).catch((error) => {
+
+
+        failedData = [...failedData, partnumber];
+
+
       })
-    );
+      // if (response && response.data.status !== 404) {
+      // } else {
+      // }
+      if (index < (partnumbers.length - 1)) {
+        await getData(index + 1);
+      }
+    }
+    await getData(0)
+    // return console.log(partnumbers)
+    // await Promise.all(
+    //   partnumbers.map(async (partnumber) => {
+    //     const response = await axios.get(
+    //       `https://scrapper-backend.geniusmindzone.com/phoenix/${partnumber}`
+    //     );
+    //     console.log(response.data);
+    //     if (response && response.data.status !== 404) {
+    //       rawData = [...rawData, ...[response.data]];
+    //     } else {
+    //       failedData = [...failedData, partnumber];
+    //     }
+    //   })
+    // );
     const csv_data = Papa.unparse(rawData);
     const LiveData = generateTableData(rawData);
     return { csv_data, LiveData, failedData };
