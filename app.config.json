@@ -4,7 +4,7 @@ apps : [
 name : "scrapper",
 script : "npx",
 interpreter: "none",
-args: "npm run serve"
+args: "npm run start"
 }
 ]
 }
