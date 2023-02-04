@@ -35,7 +35,7 @@ export async function getLiveManufacturerData({
         await Promise.all(
           partnumbers.map(async (keyword: string) => {
             const response = await axios.get(
-              `https://scrapper-backend.geniusmindzone.com:8000/molex/${keyword}`
+              `https://scrapper-backend.geniusmindzone.com/molex/${keyword}`
             );
 
             if (response && response.data.status !== 404) {
@@ -63,7 +63,7 @@ export async function getLiveManufacturerData({
         const getData = async (index) => {
           const partnumber = partnumbers[index];
           const response = await axios.get(
-            `https://scrapper-backend.geniusmindzone.com:8000/molexList/${partnumber}`
+            `https://scrapper-backend.geniusmindzone.com/molexList/${partnumber}`
           );
           if (response && response.data.status !== 404) {
             rawData = [...rawData, ...[response.data]];
@@ -369,7 +369,7 @@ export async function getLiveManufacturerData({
       partnumbers.map(async (partnumber) => {
         partnumber = partnumber.replace(/\//g, ":");
         const response = await axios.get(
-          `https://scrapper-backend.geniusmindzone.com:8000/maxim/${partnumber}`
+          `https://scrapper-backend.geniusmindzone.com/maxim/${partnumber}`
         );
         if (response && response.data.status !== 404) {
           rawData = [...rawData, ...[response.data]];
@@ -617,7 +617,7 @@ export async function getLiveDistributersData({
         partnumber="xyz"
       }
       const response = await axios.get(
-        `https://scrapper-backend.geniusmindzone.com:8000/arrow/${partnumber}`
+        `https://scrapper-backend.geniusmindzone.com/arrow/${partnumber}`
       );
       if (response && response.data.status !== 404) {
         rawData = [...rawData, ...[response.data]];
@@ -641,7 +641,7 @@ export async function getLiveDistributersData({
     // await Promise.all(
     //   partnumbers.map(async (partnumber) => {
     //     const response = await axios.get(
-    //       `https://scrapper-backend.geniusmindzone.com:8000/arrow/${partnumber}`
+    //       `https://scrapper-backend.geniusmindzone.com/arrow/${partnumber}`
     //     );
     //     if (response && response.data.status !== 404) {
     //       rawData = [...rawData, ...[response.data]];
