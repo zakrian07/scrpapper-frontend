@@ -20,6 +20,13 @@ export async function getLiveManufacturerData({
   partnumbers,
   isCsv
 }: liveDataProps) {
+  console.log("before",partnumbers);
+    const re = /^[0-9\b]+$/;
+    var partnumbers = partnumbers.filter(function (el) {
+     // return el != null && re.test(el);
+     return el != null
+    }); 
+    console.log("before AFTER",partnumbers);
   if (supplier == "Molex") {
     try {
       if (!isCsv) {
@@ -44,26 +51,55 @@ export async function getLiveManufacturerData({
         return { csv_data, LiveData, failedData };
 
       } else {
-        let rawData: any = [];
+       
+        let rawData: any[] = [];
         let failedData: any = [];
-        const response = await axios.post(
-          `https://scrapper-backend.geniusmindzone.com:8000/molexList`, { parts: partnumbers }
-        );
-        console.log(response.data)
-        if (response.data.length) {
-          for (const iterator of response.data) {
-            console.log(iterator)
-            if (iterator && iterator.Results == "Found") {
-              rawData = [...rawData, ...[iterator]];
-            } else {
-              failedData = [...failedData, iterator];
-            }
+        // console.log("before",partnumbers);
+        // const re = /^[0-9\b]+$/;
+        // var partnumbers = partnumbers.filter(function (el) {
+        //   return el != null && re.test(el);
+        // });
+       
+        const getData = async (index) => {
+          const partnumber = partnumbers[index];
+          const response = await axios.get(
+            `http://127.0.0.1:8000/molexList/${partnumber}`
+          );
+          if (response && response.data.status !== 404) {
+            rawData = [...rawData, ...[response.data]];
+          } else {
+            failedData = [...failedData, partnumber];
+          }
+          if (index < (partnumbers.length - 1)) {
+            await getData(index + 1);
           }
         }
+        await getData(0)
+        // return console.log(partnumbers)
+        // await Promise.all(
+        //   partnumbers.map(async (partnumber) => {
+        //     const response = await axios.get(
+        //       `https://scrapper-backend.geniusmindzone.com/phoenix/${partnumber}`
+        //     );
+        //     console.log(response.data);
+        //     if (response && response.data.status !== 404) {
+        //       rawData = [...rawData, ...[response.data]];
+        //     } else {
+        //       failedData = [...failedData, partnumber];
+        //     }
+        //   })
+        // );
         const csv_data = Papa.unparse(rawData);
         const LiveData = generateTableData(rawData);
-
         return { csv_data, LiveData, failedData };
+
+
+
+
+
+
+
+
 
       }
     } catch (error) {
@@ -130,7 +166,7 @@ export async function getLiveManufacturerData({
       await Promise.all(
         partnumbers.map(async (keyword: string) => {
           const response = await axios.get(
-            `https://scrapper-backend.geniusmindzone.com/scrap_festo/${keyword}`
+            `http://localhost:8000/scrap_festo/${keyword}`
           );
 
           if (response && response.data.status !== 404) {
@@ -333,7 +369,7 @@ export async function getLiveManufacturerData({
       partnumbers.map(async (partnumber) => {
         partnumber = partnumber.replace(/\//g, ":");
         const response = await axios.get(
-          `https://scrapper-backend.geniusmindzone.com/maxim/${partnumber}`
+          `http://127.0.0.1:8000/maxim/${partnumber}`
         );
         if (response && response.data.status !== 404) {
           rawData = [...rawData, ...[response.data]];
@@ -479,6 +515,12 @@ export async function getLiveManufacturerData({
     // alert("wow")
     let rawData: any[] = [];
     let failedData: any = [];
+    // console.log("before",partnumbers);
+    // const re = /^[0-9\b]+$/;
+    // var partnumbers = partnumbers.filter(function (el) {
+    //   return el != null && re.test(el);
+    // });
+   
     const getData = async (index) => {
       const partnumber = partnumbers[index];
       const response = await axios.get(
@@ -518,6 +560,14 @@ export async function getLiveDistributersData({
   supplier,
   partnumbers,
 }: liveDataProps) {
+  console.log("before",partnumbers);
+  const re = /^[0-9\b]+$/;
+  var partnumbers = partnumbers.filter(function (el) {
+    // return el != null && re.test(el);
+    return el != null ;
+  });
+
+
   if (supplier == "Mouser") {
     let rawData: any[] = [];
     let failedData: any = [];
@@ -555,22 +605,55 @@ export async function getLiveDistributersData({
   } else if (supplier.toLowerCase() == "arrow") {
     let rawData: any[] = [];
     let failedData: any = [];
-    await Promise.all(
-      partnumbers.map(async (partnumber) => {
-        const response = await axios.get(
-          `https://scrapper-backend.geniusmindzone.com/arrow/${partnumber}`
-        );
-        if (response && response.data.status !== 404) {
-          rawData = [...rawData, ...[response.data]];
-        } else {
-          failedData = [...failedData, partnumber];
-        }
-      })
-    );
+    // console.log("before",partnumbers);
+    // const re = /^[0-9\b]+$/;
+    // var partnumbers = partnumbers.filter(function (el) {
+    //   return el != null && re.test(el);
+    // });
+    var format = /[/]+/;
+    const getData = async (index) => {
+      let partnumber = partnumbers[index];
+      if(format.test(partnumber)){
+        partnumber="xyz"
+      }
+      const response = await axios.get(
+        `http://127.0.0.1:8000/arrow/${partnumber}`
+      );
+      if (response && response.data.status !== 404) {
+        rawData = [...rawData, ...[response.data]];
+      } else {
+        failedData = [...failedData, partnumber];
+      }
+      if (index < (partnumbers.length - 1)) {
+        await getData(index + 1);
+      }
+    }
+    await getData(0)
+
     const csv_data = Papa.unparse(rawData);
     const LiveData = generateTableData(rawData);
-    console.log(LiveData);
-    return { csv_data, LiveData, failedData };
+    return { csv_data, LiveData, failedData }; 
+
+
+
+    // let rawData: any[] = [];
+    // let failedData: any = [];
+    // await Promise.all(
+    //   partnumbers.map(async (partnumber) => {
+    //     const response = await axios.get(
+    //       `http://127.0.0.1:8000/arrow/${partnumber}`
+    //     );
+    //     if (response && response.data.status !== 404) {
+    //       rawData = [...rawData, ...[response.data]];
+    //     } else {
+    //       failedData = [...failedData, partnumber];
+    //     }
+    //   })
+    // );
+    // const csv_data = Papa.unparse(rawData);
+    // const LiveData = generateTableData(rawData);
+    // console.log(LiveData);
+    // return { csv_data, LiveData, failedData };
   } else if (supplier == "Maxim") {
     let rawData: any[] = [];
     let failedData: any = [];
@@ -644,6 +727,12 @@ export default async function GetLiveData({
   partnumbers,
   isCsv
 }: LiveDataProps) {
+  console.log("before",partnumbers);
+  const re = /^[0-9\b]+$/;
+  var partnumbers = partnumbers.filter(function (el) {
+    //return el != null && re.test(el);
+    return el != null ;
+  });
   if (type.toLowerCase() === "manufacturer") {
     const response = await getLiveManufacturerData({ supplier, partnumbers, isCsv });
 

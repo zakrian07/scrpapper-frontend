@@ -1,3 +1,5 @@
+ pm2 start app.config.json && pm2 list
+
 This is ComplianceGrabber site.
 https://suppliers.vercel.app/
 
