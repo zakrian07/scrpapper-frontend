@@ -35,7 +35,7 @@ export async function getLiveManufacturerData({
         await Promise.all(
           partnumbers.map(async (keyword: string) => {
             const response = await axios.get(
-              `https://scrapper-backend.geniusmindzone.com/molex/${keyword}`
+              `https://scrapper-backend.geniusmindzone.com:8000/molex/${keyword}`
             );
 
             if (response && response.data.status !== 404) {
@@ -161,49 +161,48 @@ export async function getLiveManufacturerData({
   else if (supplier == "Festo") {
     try {
       // if (isCsv) {
+      // let rawData: any = [];
+      // let failedData: any = [];
+      // await Promise.all(
+      //   partnumbers.map(async (keyword: string) => {
+      //     const response = await axios.get(
+      //       `http://localhost:8000/scrap_festo/${keyword}`
+      //     );
+
+      //     if (response && response.data.status !== 404) {
+      //       rawData = [...rawData, ...[response.data]];
+      //     } else {
+      //       failedData = [...failedData, keyword];
+      //     }
+      //   })
+      // );
+
+      // const csv_data = Papa.unparse(rawData);
+      // const LiveData = generateTableData(rawData);
+      // return { csv_data, LiveData, failedData };
+
       let rawData: any = [];
       let failedData: any = [];
-      await Promise.all(
-        partnumbers.map(async (keyword: string) => {
-          const response = await axios.get(
-            `http://localhost:8000/scrap_festo/${keyword}`
-          );
-
-          if (response && response.data.status !== 404) {
-            rawData = [...rawData, ...[response.data]];
-          } else {
-            failedData = [...failedData, keyword];
-          }
-        })
-      );
-
+      const getData = async (index) => {
+        const partnumber = partnumbers[index];
+        const response = await axios.get(
+          `https://scrapper-backend.geniusmindzone.com/scrap_festo/${partnumber}`
+        );
+        if (response && response.data.status !== 404) {
+          rawData = [...rawData, ...[response.data]];
+        } else {
+          failedData = [...failedData, partnumber];
+        }
+        if (index < (partnumbers.length - 1)) {
+          await getData(index + 1);
+        }
+      }
+      await getData(0)
       const csv_data = Papa.unparse(rawData);
       const LiveData = generateTableData(rawData);
       return { csv_data, LiveData, failedData };
 
-      // } else {
-      //   let rawData: any = [];
-      //   let failedData: any = [];
-      //   const response = await axios.get(
-      //     `https://scrapper-backend.geniusmindzone.com/scrap_festo/${partnumbers}`
-      //   );
-      //   console.log(response.data)
-      //   if (response.data.length) {
-      //     for (const iterator of response.data) {
-      //       console.log(iterator)
-      //       if (iterator && iterator.Results == "Found") {
-      //         rawData = [...rawData, ...[iterator]];
-      //       } else {
-      //         failedData = [...failedData, iterator];
-      //       }
-      //     }
-      //   }
-      //   const csv_data = Papa.unparse(rawData);
-      //   const LiveData = generateTableData(rawData);
-
-      //   return { csv_data, LiveData, failedData };
-
-      // }
+  
     } catch (error) {
       throw new Error(`${error}`);
     }
@@ -311,53 +310,51 @@ export async function getLiveManufacturerData({
   }
   else if (supplier == "3M Company") {
     try {
-      // if (!isCsv) {
+      
+
+
       let rawData: any = [];
       let failedData: any = [];
-      await Promise.all(
-        partnumbers.map(async (keyword: string) => {
-          const response = await axios.get(
-            `https://scrapper-backend.geniusmindzone.com/scrap_3m/${keyword}`
-          );
-
-          if (response && response.data.status !== 404) {
-            rawData = [...rawData, ...[response.data]];
-          } else {
-            failedData = [...failedData, keyword];
-          }
-        })
-      );
-
+      const getData = async (index) => {
+        const partnumber = partnumbers[index];
+        const response = await axios.get(
+          `https://scrapper-backend.geniusmindzone.com/scrap_3m/${partnumber}`
+        );
+        if (response && response.data.status !== 404) {
+          rawData = [...rawData, ...[response.data]];
+        } else {
+          failedData = [...failedData, partnumber];
+        }
+        if (index < (partnumbers.length - 1)) {
+          await getData(index + 1);
+        }
+      }
+      await getData(0)
       const csv_data = Papa.unparse(rawData);
       const LiveData = generateTableData(rawData);
       return { csv_data, LiveData, failedData };
 
-      // }
-      // else {
-      //   let rawData: any = [];
-      //   let failedData: any = [];
-      //   const response = await axios.get(
-      //     `https://scrapper-backend.geniusmindzone.com/scrap_3m/${partnumbers}`
-      //   );
-      //   console.log(response.data, "---in response 3m ----")
-      //   if (response.data.length) {
-      //     for (const iterator of response.data) {
-      //       console.log(response.data)
-      //       if (response.data && response.data[0].Results == "Found") {
-      //         console.log("in conditioin itrator----")
-      //         rawData = [...rawData, ...[response[0].data]];
-      //       } else {
-      //         failedData = [...failedData, response[0].data];
-      //       }
+      // let rawData: any = [];
+      // let failedData: any = [];
+      // await Promise.all(
+      //   partnumbers.map(async (keyword: string) => {
+      //     const response = await axios.get(
+      //       `https://scrapper-backend.geniusmindzone.com/scrap_3m/${keyword}`
+      //     );
+
+      //     if (response && response.data.status !== 404) {
+      //       rawData = [...rawData, ...[response.data]];
+      //     } else {
+      //       failedData = [...failedData, keyword];
       //     }
-      //   }
-      //   const csv_data = Papa.unparse(rawData);
-      //   console.log(" req data", rawData)
-      //   const LiveData = generateTableData(rawData);
+      //   })
+      // );
 
-      //   return { csv_data, LiveData, failedData };
+      // const csv_data = Papa.unparse(rawData);
+      // const LiveData = generateTableData(rawData);
+      // return { csv_data, LiveData, failedData };
 
-      // }
+  
     } catch (error) {
       throw new Error(`${error}`);
     }
